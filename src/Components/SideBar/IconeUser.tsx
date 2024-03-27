@@ -12,7 +12,7 @@ const user = [
 
 export function IconeUser() {
   return (
-    <div className=" flex items-center justify-center  ">
+    <div className=" flex items-center justify-center cursor-pointer ">
       <AnimatedTooltip items={user} />
     </div>
   );

@@ -12,6 +12,8 @@ interface ChatProps {
   isOnline?: boolean;
 }
 
+const MAX_MESSAGE_LENGTH = 16;
+
 const Chat: React.FC<ChatProps> = ({
   firstname,
   lastname,
@@ -22,6 +24,12 @@ const Chat: React.FC<ChatProps> = ({
   onClick,
   isOnline,
 }) => {
+  const shortenMessage = (message: string): string => {
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return `${message.substring(0, MAX_MESSAGE_LENGTH)}...`;
+    }
+    return message;
+  };
   return (
     <div
       onClick={onClick}
@@ -51,7 +59,7 @@ const Chat: React.FC<ChatProps> = ({
               isSelected ? "text-white " : "text-[#7C7C7D] hover:text-white"
             }`}
           >
-            {lastmessage}
+            {shortenMessage(lastmessage)}
           </p>
         </div>
       </div>

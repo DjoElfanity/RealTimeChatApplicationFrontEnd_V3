@@ -34,7 +34,7 @@ const ChatPage: React.FC = () => {
       </div>
 
       <SearchBar />
-      <div className=" mt-3 p-2 flex flex-col pr-3 gap-4 chat-list max-h-[90vh] overflow-y-auto">
+      <div className=" mt-3 p-2 flex flex-col pr-2 gap-4 chat-list max-h-[90vh] overflow-y-auto ">
         {chatData.map((chat) => (
           <Chat
             key={chat.id}

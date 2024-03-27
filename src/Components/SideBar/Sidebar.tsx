@@ -13,14 +13,14 @@ const Sidebar: React.FC = () => {
   return (
     <div className=" hidden bg-background-fort min-w-24 text-text p-3 flex-col justify-between items-center  sm:flex ">
       <IconeApplication />
-      <div className="flex flex-col text-[20px] gap-12 p-2 justify-center items-center">
+      <div className="flex flex-col text-[20px] gap-12 p-2 justify-center items-center ">
         <IconeGenerique
           Icone={TiPlusOutline}
           title="Add Room"
-          className={`${
+          className={`border-2 border-transparent p-3 rounded-md transition duration-300 ease-in-out font-semibold ${
             activeIcon === "addRoom"
-              ? "text-bold text-white border p-3 rounded-md bg-card-primary "
-              : "text-text"
+              ? "text-bold text-white bg-card-primary border-card-primary"
+              : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
           onClick={() => setActiveIcon("addRoom")}
         />
@@ -28,10 +28,10 @@ const Sidebar: React.FC = () => {
         <IconeGenerique
           Icone={AiOutlineMessage}
           title="Messages"
-          className={`${
+          className={`border-2 border-transparent p-3 rounded-md transition duration-300 ease-in-out font-semibold ${
             activeIcon === "message"
-              ? "text-bold text-white border p-3 rounded-md bg-card-primary "
-              : "text-text"
+              ? "text-bold text-white bg-card-primary border-card-primary"
+              : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
           onClick={() => setActiveIcon("message")}
         />
@@ -39,10 +39,10 @@ const Sidebar: React.FC = () => {
         <IconeGenerique
           Icone={IoIosNotificationsOutline}
           title="Notifications"
-          className={`${
+          className={`border-2 border-transparent p-3 rounded-md transition duration-300 ease-in-out font-semibold ${
             activeIcon === "notification"
-              ? "text-bold text-white border p-3 rounded-md bg-card-primary "
-              : "text-text"
+              ? "text-bold text-white bg-card-primary border-card-primary"
+              : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
           onClick={() => setActiveIcon("notification")}
         />
@@ -50,10 +50,10 @@ const Sidebar: React.FC = () => {
         <IconeGenerique
           Icone={FaUsers}
           title="Friends"
-          className={`${
+          className={`border-2 border-transparent p-3 rounded-md transition duration-300 ease-in-out font-semibold ${
             activeIcon === "friends"
-              ? "text-bold text-white border p-3 rounded-md bg-card-primary "
-              : "text-text"
+              ? "text-bold text-white bg-card-primary border-card-primary"
+              : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
           onClick={() => setActiveIcon("friends")}
         />
