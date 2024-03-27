@@ -9,6 +9,7 @@ interface ChatProps {
   image: string;
   isSelected: boolean;
   onClick: () => void;
+  isOnline?: boolean;
 }
 
 const Chat: React.FC<ChatProps> = ({
@@ -19,31 +20,42 @@ const Chat: React.FC<ChatProps> = ({
   image,
   isSelected,
   onClick,
+  isOnline,
 }) => {
   return (
     <div
       onClick={onClick}
-      className={`transition duration-400 ease-in-out flex items-start justify-between bg-background-leger p-3 rounded-xl cursor-pointer ${
+      className={`transition duration-400 ease-in-out flex items-start  hover:text-white hover:bg-card-primary justify-between bg-background-leger p-3 rounded-xl cursor-pointer ${
         isSelected ? "text-white bg-card-primary" : "text-black"
       }`}
     >
-      <div className="flex items-center">
+      <div className="flex items-center relative">
         <img
           src={image}
           alt="User"
           className="w-12 h-12 object-cover rounded-full mr-3"
         />
+        <div
+          className={`${
+            isOnline ? "bg-green-500" : "bg-red-500"
+          } p-1.5 bottom-0 left-8 rounded-full absolute`}
+        ></div>
+
         <div>
           <div className="font-semibold">
             {firstname} {lastname}
           </div>
-          {/* Ici, on ajoute une condition pour changer la couleur du texte du dernier message */}
-          <p className={`${isSelected ? "text-white" : "text-[#7C7C7D]"}`}>
+
+          <p
+            className={`hover${
+              isSelected ? "text-white " : "text-[#7C7C7D] hover:text-white"
+            }`}
+          >
             {lastmessage}
           </p>
         </div>
       </div>
-      <div className="text-right text-xs">
+      <div className="text-right text-xs font-semibold">
         <p>{lastTimeMessage}</p>
       </div>
     </div>

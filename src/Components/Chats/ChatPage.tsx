@@ -44,6 +44,7 @@ const ChatPage: React.FC = () => {
             lastmessage={chat.lastmessage}
             lastTimeMessage={chat.lastTimeMessage}
             image={chat.image}
+            isOnline={chat.isOnline}
             isSelected={selectedChat === chat.id}
             onClick={() => setSelectedChat(chat.id)}
           />

@@ -11,9 +11,9 @@ import { IconeUser } from "./IconeUser";
 const Sidebar: React.FC = () => {
   const [activeIcon, setActiveIcon] = useState<string>("");
   return (
-    <div className=" hidden bg-background-fort max-w-28 text-text p-3 flex-col justify-between items-center  sm:flex ">
+    <div className=" hidden bg-background-fort min-w-24 text-text p-3 flex-col justify-between items-center  sm:flex ">
       <IconeApplication />
-      <div className="flex flex-col gap-12 p-2 justify-center items-center">
+      <div className="flex flex-col text-[20px] gap-12 p-2 justify-center items-center">
         <IconeGenerique
           Icone={TiPlusOutline}
           title="Add Room"

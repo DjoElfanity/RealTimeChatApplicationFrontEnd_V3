@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   return (
     <div className="h-screen flex ">
       <Sidebar />
-      <div className="bg-background-medium text-text px-5 w-1/3">
+      <div className="bg-background-medium text-text px-5 min-w-80">
         <ChatPage />
       </div>
       <div className="px-5 bg-background-leger w-full">Contenu principale</div>
