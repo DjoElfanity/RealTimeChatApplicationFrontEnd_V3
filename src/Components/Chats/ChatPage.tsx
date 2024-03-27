@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { LuCircleDashed } from "react-icons/lu";
 import chatData from "../../data/data";
 import Chat from "./Chat";
 import SearchBar from "./SearchBar";
 
 const ChatPage: React.FC = () => {
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
+
   return (
     <div className="max-h-[calc(100vh)] overflow-y-hidden">
       <style>
@@ -36,11 +38,14 @@ const ChatPage: React.FC = () => {
         {chatData.map((chat) => (
           <Chat
             key={chat.id}
+            id={chat.id}
             firstname={chat.firstname}
             lastname={chat.lastname}
             lastmessage={chat.lastmessage}
             lastTimeMessage={chat.lastTimeMessage}
             image={chat.image}
+            isSelected={selectedChat === chat.id}
+            onClick={() => setSelectedChat(chat.id)}
           />
         ))}
       </div>

@@ -1,12 +1,14 @@
 import React from "react";
 
 interface ChatProps {
+  id: number;
   firstname: string;
   lastname: string;
   lastmessage: string;
   lastTimeMessage: string;
   image: string;
-  // onclick: () => void;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
 const Chat: React.FC<ChatProps> = ({
@@ -15,9 +17,16 @@ const Chat: React.FC<ChatProps> = ({
   lastmessage,
   lastTimeMessage,
   image,
+  isSelected,
+  onClick,
 }) => {
   return (
-    <div className="flex items-start justify-between bg-background-leger text-black p-3 rounded-xl cursor-pointer">
+    <div
+      onClick={onClick}
+      className={`transition duration-400 ease-in-out flex items-start justify-between bg-background-leger p-3 rounded-xl cursor-pointer ${
+        isSelected ? "text-white bg-card-primary" : "text-black"
+      }`}
+    >
       <div className="flex items-center">
         <img
           src={image}
@@ -28,7 +37,10 @@ const Chat: React.FC<ChatProps> = ({
           <div className="font-semibold">
             {firstname} {lastname}
           </div>
-          <p className="text-[#7C7C7D]">{lastmessage}</p>
+          {/* Ici, on ajoute une condition pour changer la couleur du texte du dernier message */}
+          <p className={`${isSelected ? "text-white" : "text-[#7C7C7D]"}`}>
+            {lastmessage}
+          </p>
         </div>
       </div>
       <div className="text-right text-xs">
