@@ -6,10 +6,18 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { TiPlusOutline } from "react-icons/ti";
 import IconeApplication from "./IconeApplication";
 import IconeGenerique from "./IconeGenerique";
-import { IconeUser } from "./IconeUser";
+import IconeUser from "./IconeUser";
 
-const Sidebar: React.FC = () => {
+interface SideBarProps {
+  onIconeClick: (iconName: string) => void;
+}
+
+const Sidebar: React.FC<SideBarProps> = ({ onIconeClick }) => {
   const [activeIcon, setActiveIcon] = useState<string>("");
+  const handleIconeClick = (iconName: string) => {
+    setActiveIcon(iconName);
+    onIconeClick(iconName);
+  };
   return (
     <div className=" hidden bg-background-fort min-w-24 text-text p-3 flex-col justify-between items-center  sm:flex ">
       <IconeApplication />
@@ -22,7 +30,7 @@ const Sidebar: React.FC = () => {
               ? "text-bold text-white bg-card-primary border-card-primary"
               : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
-          onClick={() => setActiveIcon("addRoom")}
+          onClick={() => handleIconeClick("addRoom")}
         />
 
         <IconeGenerique
@@ -33,7 +41,7 @@ const Sidebar: React.FC = () => {
               ? "text-bold text-white bg-card-primary border-card-primary"
               : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
-          onClick={() => setActiveIcon("message")}
+          onClick={() => handleIconeClick("message")}
         />
 
         <IconeGenerique
@@ -44,7 +52,7 @@ const Sidebar: React.FC = () => {
               ? "text-bold text-white bg-card-primary border-card-primary"
               : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
-          onClick={() => setActiveIcon("notification")}
+          onClick={() => handleIconeClick("notification")}
         />
 
         <IconeGenerique
@@ -55,10 +63,10 @@ const Sidebar: React.FC = () => {
               ? "text-bold text-white bg-card-primary border-card-primary"
               : "hover:border-card-primary hover:text-bold hover:text-white hover:bg-card-primary"
           }`}
-          onClick={() => setActiveIcon("friends")}
+          onClick={() => handleIconeClick("friends")}
         />
       </div>
-      <IconeUser />
+      <IconeUser onUserClick={handleIconeClick} />
     </div>
   );
 };

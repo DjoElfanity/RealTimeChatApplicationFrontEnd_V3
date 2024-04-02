@@ -5,11 +5,11 @@ import { IoSearchOutline } from "react-icons/io5";
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Term de recherche:", searchTerm);
   };

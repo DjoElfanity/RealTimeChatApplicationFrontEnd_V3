@@ -1,5 +1,6 @@
-"use client";
+import React from "react";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
+
 const user = [
   {
     id: 1,
@@ -10,10 +11,23 @@ const user = [
   },
 ];
 
-export function IconeUser() {
+interface IconeUserProps {
+  onUserClick: (iconName: string) => void;
+}
+
+const IconeUser: React.FC<IconeUserProps> = ({ onUserClick }) => {
+  const handleUserClick = () => {
+    onUserClick("user");
+  };
+
   return (
-    <div className=" flex items-center justify-center cursor-pointer ">
+    <div
+      className="flex items-center justify-center cursor-pointer"
+      onClick={handleUserClick}
+    >
       <AnimatedTooltip items={user} />
     </div>
   );
-}
+};
+
+export default IconeUser;
