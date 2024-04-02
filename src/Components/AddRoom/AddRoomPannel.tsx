@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import SideBarHeader from "../Common/SideBarHeader";
 import AddRoomComponent from "./AddRoomComponent";
-import RoomNameForm from "./RoomNameForm"; // Assurez-vous que RoomNameForm est maintenant le formulaire générique
+import RoomNameForm from "./RoomNameForm";
 
 const AddRoomPanel: React.FC = () => {
   const [isDropped, setIsDropped] = useState(false);
   const [isSecondDropped, setIsSecondDropped] = useState(false);
-  // États pour les valeurs des champs de formulaire
   const [roomName, setRoomName] = useState("");
   const [roomId, setRoomId] = useState("");
   const [memberEmail, setMemberEmail] = useState("");
@@ -45,15 +44,14 @@ const AddRoomPanel: React.FC = () => {
   ];
 
   const handleSubmit = () => {
-    console.log("Form submitted");
-    // Ajoutez ici la logique de soumission de votre formulaire
-    // N'oubliez pas de réinitialiser les états si nécessaire
+    console.log("Form submitted with", { roomName, roomId, memberEmail });
+    // Reset state logic here if needed
   };
 
   return (
     <div>
       <SideBarHeader header="Add Room" />
-      <div className="flex flex-col mt-10">
+      <div className="flex flex-col mt-6">
         <div className="form-container mt-3 p-2 flex flex-col gap-4 max-h-[80vh] overflow-y-auto custom-scroll">
           <style>
             {`
@@ -93,6 +91,16 @@ const AddRoomPanel: React.FC = () => {
               fields={fieldsForAddMembers}
               onSubmit={handleSubmit}
             />
+          )}
+
+          {!isDropped && !isSecondDropped && (
+            <div className="  text-center max-w-96 flex justify-center items-center ">
+              <p className="flex justify-center items-center mt-5 p-2 border border-background-leger max-w-max text-wrap text-sm text-left">
+                Welcome to the room creation and member addition section. Here,
+                you can create a new room or add members to an existing one.
+                Click on one of the options above to proceed
+              </p>
+            </div>
           )}
         </div>
       </div>

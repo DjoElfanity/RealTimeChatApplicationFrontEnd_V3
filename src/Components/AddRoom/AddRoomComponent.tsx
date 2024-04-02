@@ -17,7 +17,7 @@ const AddRoomComponent: React.FC<AddRoomComponentProps> = ({
   return (
     <div
       onClick={toggleDropdown}
-      className=" mt-3 p-4 bg-background-leger rounded-lg flex justify-between items-center cursor-pointer"
+      className=" p-4  h-auto w-auto bg-background-leger rounded-lg flex justify-between items-center cursor-pointer"
       style={{ transition: "all 10s ease" }}
     >
       <div className="flex flex-col gap-1">

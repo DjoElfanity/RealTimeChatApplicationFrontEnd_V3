@@ -7,7 +7,11 @@ interface SideBarHeaderProps {
 
 const SideBarHeader: React.FC<SideBarHeaderProps> = ({ header }) => {
   return (
-    <div className="mt-[30px] flex justify-between items-center">
+    <div
+      className="mt-[30px] flex justify-between items-center
+    border-b border-background-soft pb-2 mb-2 
+    "
+    >
       <span className="font-semibold text-text text-[20px] mx-0.5">
         {header}
       </span>
