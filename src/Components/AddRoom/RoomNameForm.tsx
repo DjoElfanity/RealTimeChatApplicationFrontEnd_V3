@@ -38,7 +38,7 @@ const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
             />
           </div>
         ))}
-        <div className="flex justify-around items-center gap-14 mt-5">
+        <div className="flex justify-around items-center gap-2 mt-5">
           <Button
             variant="red"
             size="default"
@@ -56,7 +56,7 @@ const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
           <Button
             variant="green"
             size="default"
-            className="px-10"
+            className="  xl:px-12"
             type="submit"
           >
             Créer

@@ -9,10 +9,8 @@ const AddRoomPanel: React.FC = () => {
   const [roomName, setRoomName] = useState("");
   const [roomId, setRoomId] = useState("");
   const [memberEmail, setMemberEmail] = useState("");
-
   const toggleDropdown = () => setIsDropped(!isDropped);
   const toggleSecondDropdown = () => setIsSecondDropped(!isSecondDropped);
-
   const fieldsForCreateRoom = [
     {
       label: "Room Name",
@@ -23,7 +21,6 @@ const AddRoomPanel: React.FC = () => {
       placeholder: "Ex: Room number 1",
     },
   ];
-
   const fieldsForAddMembers = [
     {
       label: "Room Id",
@@ -53,20 +50,6 @@ const AddRoomPanel: React.FC = () => {
       <SideBarHeader header="Add Room" />
       <div className="flex flex-col mt-6">
         <div className="form-container mt-3 p-2 flex flex-col gap-4 max-h-[80vh] overflow-y-auto custom-scroll">
-          <style>
-            {`
-              .custom-scroll::-webkit-scrollbar {
-                width: 4px;
-              }
-              .custom-scroll::-webkit-scrollbar-track {
-                background-color: rgba(229, 231, 235, var(--bg-opacity));
-              }
-              .custom-scroll::-webkit-scrollbar-thumb {
-                background-color: #a0aec0;
-              }
-            `}
-          </style>
-
           <AddRoomComponent
             isDropped={isDropped}
             toggleDropdown={toggleDropdown}
