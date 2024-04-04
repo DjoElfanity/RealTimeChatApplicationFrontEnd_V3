@@ -1,4 +1,4 @@
-//  ecris moi une fonction tsx pour home
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import AddRoom from "../Components/AddRoom/AddRoomPannel";
 import ChatPage from "../Components/Chats/ChatPage";
@@ -10,28 +10,49 @@ import WelcomePage from "../Components/WelcomePage/WelcomePage";
 
 const Home: React.FC = () => {
   const [currentPanel, setCurrentPanel] = useState<string>("addRoom");
+
   const handleIconeClick = (iconName: string) => {
     setCurrentPanel(iconName);
   };
 
+  const renderCurrentPanel = (panelName: string) => {
+    switch (panelName) {
+      case "message":
+        return <ChatPage />;
+      case "addRoom":
+        return <AddRoom />;
+      case "notification":
+        return <Notifications />;
+      case "friends":
+        return <Friends />;
+      case "user":
+        return <UserInfo />;
+      default:
+        return null; // Ou un composant par défaut
+    }
+  };
+
   return (
     <div className="h-screen flex ">
-      {/* SideBar */}
       <Sidebar onIconeClick={handleIconeClick} />
-      {/* MainContent */}
       <div className="bg-background-medium text-text px-5 min-w-96 max-w-96 relative ">
-        {currentPanel === "message" && <ChatPage />}
-        {currentPanel === "addRoom" && <AddRoom />}
-        {currentPanel === "notification" && <Notifications />}
-        {currentPanel === "friends" && <Friends />}
-        {currentPanel === "user" && <UserInfo />}
-        {/* Footer */}
-        <div className="sm:hidden text-white  absolute bottom-0 lewft-0">
-          footer
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPanel}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {renderCurrentPanel(currentPanel)}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="sm:hidden text-white  absolute bottom-0 left-0">
+        footer
       </div>
 
-      <div className="px-5  bg-background-leger w-full">
+      <div className="px-5 bg-background-leger w-full">
         <WelcomePage name="John Doe" />
       </div>
     </div>

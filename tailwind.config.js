@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        loginBackground: "url('/src/assets/images/login-background.jpg')",
+      },
       transitionProperty: {
         height: "height",
         spacing: "margin, padding",

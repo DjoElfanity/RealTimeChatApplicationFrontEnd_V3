@@ -22,7 +22,7 @@ const Notifications: React.FC = () => {
     <>
       <SideBarHeader header="Notifications" />
 
-      <div className="custom-scroll h-[80%] overflow-y-auto ">
+      <div className=" max-h-[80vh] overflow-y-auto custom-scroll">
         {notifications.map((notification) => {
           if (notification.type === "message" && notification.isActive) {
             return (
