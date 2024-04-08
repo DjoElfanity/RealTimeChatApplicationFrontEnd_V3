@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import DropdownMenu from "../../utils/DropDownMenu"; // Assurez-vous que le chemin d'importation est correct
 
 interface ChatProps {
-  id: number;
+  id: string;
   firstname: string;
   lastname: string;
   lastmessage: string;
@@ -48,6 +48,7 @@ const Chat: React.FC<ChatProps> = ({
   }, []);
 
   const shortenMessage = (message: string): string => {
+    if (!message) return "";
     return message.length > MAX_MESSAGE_LENGTH
       ? `${message.substring(0, MAX_MESSAGE_LENGTH)}...`
       : message;
@@ -66,7 +67,7 @@ const Chat: React.FC<ChatProps> = ({
         <img
           src={image}
           alt={`${firstname} ${lastname}`}
-          className="w-12 h-12 object-cover rounded-full mr-3"
+          className="w-12 h-12 object-fit rounded-full mr-3"
         />
         <div
           className={`${

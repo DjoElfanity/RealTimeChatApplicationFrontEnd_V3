@@ -1,25 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthProvider";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
-
-const user = [
-  {
-    id: 1,
-    name: "John Doe",
-    designation: "Software Engineer",
-    image:
-      "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
-  },
-];
 
 interface IconeUserProps {
   onUserClick: (iconName: string) => void;
 }
 
 const IconeUser: React.FC<IconeUserProps> = ({ onUserClick }) => {
+  const { userId } = useAuth();
+  // Initialiser user comme un tableau vide
+  const [user, setUser] = useState<
+    { id: string; firstName: string; lastName: string; image: string }[]
+  >([]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!userId) return; // Sortie anticipée si userId n'est pas défini
+      try {
+        const response = await axios.get(
+          `http://localhost:5150/api/User/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        // Mettre à jour l'état avec un tableau contenant l'objet de l'utilisateur
+        setUser([
+          {
+            id: response.data.id,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            image: "https://example.com/default-image.png",
+          },
+        ]);
+      } catch (error) {
+        console.error("User error:", error);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
   const handleUserClick = () => {
     onUserClick("user");
   };
 
+  // Passer l'état user à AnimatedTooltip
   return (
     <div
       className="flex items-center justify-center cursor-pointer"

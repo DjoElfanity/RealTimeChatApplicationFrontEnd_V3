@@ -15,8 +15,8 @@ const InputField: React.FC<{
   name?: string;
 }> = ({ label, type, placeholder, value, onChange, name }) => {
   return (
-    <div className="flex flex-col gap-2 w-full px-4">
-      <label className="text-xs font-semibold">{label}</label>
+    <div className="flex flex-col gap-2 w-full px-4 mb-2">
+      <label className="text-xs mb-1">{label}</label>
       <input
         type={type}
         className="rounded-lg p-2 outline-none text-[#7FB3D5] text-xs shadow-lg  shadow-[#7FB3D5] placeholder:text-xs w-full placeholder:text-[#7FB3D5] placeholder:px-1 "
@@ -62,10 +62,11 @@ const LoginPage: React.FC = () => {
     <div
       style={{
         backgroundImage: `url(${LoginBackground}) `,
+        fontFamily: "Arial",
       }}
       className="h-screen bg-cover bg-center flex justify-center items-center text-white"
     >
-      <div className=" bg-[#233046] shadow-sky-800 bg-opacity-100 w-80 rounded-2xl shadow-xl p-2 flex flex-col gap-4 border-2 border-white justify-center items-center">
+      <div className=" bg-[#233046] shadow-sky-800 bg-opacity-60 w-80 rounded-2xl shadow-xl p-2 flex flex-col gap-4 border-2 border-white justify-center items-center">
         <h2
           style={{ fontFamily: "Preahvihear" }}
           className="text-center text-2xl  font-semibold text-text"

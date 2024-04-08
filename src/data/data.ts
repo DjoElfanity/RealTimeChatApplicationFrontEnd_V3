@@ -153,4 +153,11 @@ export const notificationsData = [
       "Vous avez reçu une demande de la part de Bob Smith pour rejoindre la salle",
     isActive: true,
   },
+  {
+    id: 5,
+    type: "message",
+    name: "John Doe",
+    message: "Vous avez reçu un message de la part de John Doe",
+    isActive: true,
+  },
 ];

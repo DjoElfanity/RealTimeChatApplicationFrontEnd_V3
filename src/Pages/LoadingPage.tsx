@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
-import { SparklesCore } from "../Components/ui/sparkles"; // Assurez-vous que le chemin d'importation est correct
+import { SparklesCore } from "../Components/ui/sparkles";
 
-// Variants pour les animations Framer Motion
 const containerVariants = {
   hidden: { opacity: 0, scale: 1 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.5, ease: "easeInOut" },
+    transition: { duration: 0.6, ease: "easeInOut" },
   },
   exit: {
     opacity: 0,
@@ -19,14 +18,14 @@ const containerVariants = {
 export function LoadingPage() {
   return (
     <motion.div
-      className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md"
+      className="h-screen w-full bg-black flex flex-col items-center justify-center overflow-hidden "
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       exit="exit"
     >
       <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
-        Aceternity
+        AeroTalk
       </h1>
       <div className="w-[40rem] h-40 relative">
         {/* Gradients */}

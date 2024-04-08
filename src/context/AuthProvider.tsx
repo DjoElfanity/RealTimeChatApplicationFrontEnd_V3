@@ -1,3 +1,5 @@
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import React, {
   ReactNode,
   createContext,
@@ -6,10 +8,17 @@ import React, {
   useState,
 } from "react";
 
+interface DecodedToken {
+  sub: string;
+  exp: number;
+  iat: number;
+}
+
 interface AuthContextType {
   auth: string | null;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  userId: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,10 +26,20 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const [userId, setUserId] = useState<string | null>(null);
   const [auth, setAuth] = useState<string | null>(
     localStorage.getItem("token")
   );
 
+  // Decode the JWT token and set the userId
+  useEffect(() => {
+    if (auth) {
+      const decodedToken = jwtDecode<DecodedToken>(auth);
+      setUserId(decodedToken.sub);
+    }
+  }, [auth]);
+
+  // Check if a token is stored in localStorage on initial render
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -30,23 +49,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     try {
-      // Ici, remplacez par votre appel API réel
-      const response = await fetch("http://localhost:5150/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post("http://localhost:5150/auth/login", {
+        email,
+        password,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token); // Sauvegarde le token dans localStorage
-        setAuth(data.token);
-        return true;
-      } else {
-        throw new Error("Login failed");
-      }
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      setAuth(token);
+      return true;
     } catch (error) {
       console.error("Login error:", error);
       return false;
@@ -54,12 +64,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const logout = () => {
-    localStorage.removeItem("token"); // Supprime le token de localStorage
+    localStorage.removeItem("token");
     setAuth(null);
+    setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider value={{ auth, login, logout, userId }}>
       {children}
     </AuthContext.Provider>
   );
