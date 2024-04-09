@@ -35,7 +35,7 @@ const Home: React.FC = () => {
   return (
     <div className="h-screen flex ">
       <Sidebar onIconeClick={handleIconeClick} />
-      <div className="bg-background-medium text-text px-5 min-w-96 max-w-96 relative ">
+      <div className="bg-background-medium text-text px-5 w-full relative sm:min-w-96 sm:max-w-96      ">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPanel}
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
         footer
       </div>
 
-      <div className="px-5 bg-background-leger w-full">
+      <div className="px-5 bg-background-leger w-full hidden sm:block">
         <WelcomePage name="John Doe" />
       </div>
     </div>
