@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import AddRoom from "../Components/AddRoom/AddRoomPannel";
 import ChatPage from "../Components/Chats/ChatPage";
 import Friends from "../Components/Friends/Friends";
+import MessagePageContent from "../Components/MessagePannel/MessagePageContent";
 import Notifications from "../Components/Notifications/Notifications";
 import Sidebar from "../Components/SideBar/Sidebar";
 import UserInfo from "../Components/User/UserInfo";
-import WelcomePage from "../Components/WelcomePage/WelcomePage";
 import { useAuth } from "../context/AuthProvider";
 
 const Home: React.FC = () => {
@@ -54,8 +54,9 @@ const Home: React.FC = () => {
         footer
       </div>
 
-      <div className="px-5 bg-background-leger w-full hidden sm:block">
-        <WelcomePage name="John Doe" />
+      <div className="bg-background-leger w-full hidden sm:block">
+        {/* <WelcomePage name="John " /> */}
+        <MessagePageContent />
       </div>
     </div>
   );
