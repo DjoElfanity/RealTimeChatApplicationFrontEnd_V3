@@ -1,4 +1,3 @@
-//  ecris moi une fonction tsx pour sidebar
 import React, { useState } from "react";
 import { AiOutlineMessage } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa";
@@ -11,9 +10,10 @@ import IconeUser from "./IconeUser";
 
 interface SideBarProps {
   onIconeClick: (iconName: string) => void;
+  userId: string;
 }
 
-const Sidebar: React.FC<SideBarProps> = ({ onIconeClick }) => {
+const Sidebar: React.FC<SideBarProps> = ({ onIconeClick, userId }) => {
   const activeNotifications = notificationsData.filter(
     (notification) => notification.isActive
   );
@@ -83,7 +83,7 @@ const Sidebar: React.FC<SideBarProps> = ({ onIconeClick }) => {
           onClick={() => handleIconeClick("friends")}
         />
       </div>
-      <IconeUser onUserClick={handleIconeClick} />
+      <IconeUser onUserClick={handleIconeClick} userId={userId} />
     </div>
   );
 };

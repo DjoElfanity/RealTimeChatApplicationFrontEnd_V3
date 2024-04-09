@@ -1,14 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthProvider";
 import { AnimatedTooltip } from "../ui/animated-tooltip";
 
 interface IconeUserProps {
   onUserClick: (iconName: string) => void;
+  userId: string;
 }
 
-const IconeUser: React.FC<IconeUserProps> = ({ onUserClick }) => {
-  const { userId } = useAuth();
+const IconeUser: React.FC<IconeUserProps> = ({ onUserClick, userId }) => {
   // Initialiser user comme un tableau vide
   const [user, setUser] = useState<
     { id: string; firstName: string; lastName: string; image: string }[]

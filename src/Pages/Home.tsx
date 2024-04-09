@@ -7,8 +7,10 @@ import Notifications from "../Components/Notifications/Notifications";
 import Sidebar from "../Components/SideBar/Sidebar";
 import UserInfo from "../Components/User/UserInfo";
 import WelcomePage from "../Components/WelcomePage/WelcomePage";
+import { useAuth } from "../context/AuthProvider";
 
 const Home: React.FC = () => {
+  const { userId } = useAuth();
   const [currentPanel, setCurrentPanel] = useState<string>("addRoom");
 
   const handleIconeClick = (iconName: string) => {
@@ -34,8 +36,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="h-screen flex ">
-      <Sidebar onIconeClick={handleIconeClick} />
-      <div className="bg-background-medium text-text px-5 w-full relative sm:min-w-96 sm:max-w-96      ">
+      <Sidebar onIconeClick={handleIconeClick} userId={userId} />
+      <div className="bg-background-medium  text-text px-5 w-full relative sm:min-w-96 sm:max-w-96      ">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentPanel}
