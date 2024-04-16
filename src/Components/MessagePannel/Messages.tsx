@@ -1,3 +1,4 @@
+import * as signalR from "@microsoft/signalr";
 import { useEffect, useRef, useState } from "react";
 import SingleMessage from "./SingleMessage";
 
@@ -12,9 +13,12 @@ interface Message {
   userId: string;
 }
 
+const token = localStorage.getItem("token");
+
 const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
-  const [messages, setMessages] = useState<Message[]>([]); // État pour stocker les messages
-  const messagesContainerRef = useRef<HTMLDivElement>(null); // Réf pour automatiser le défilement
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [, setConnection] = useState<signalR.HubConnection | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fonction pour récupérer les messages
   const fetchMessages = async () => {
@@ -42,16 +46,53 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
 
   // Effet pour défiler automatiquement vers le bas à chaque mise à jour des messages
   useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (roomId) {
+      const connect = new signalR.HubConnectionBuilder()
+        .withUrl("http://localhost:5284/chatHub", {
+          accessTokenFactory: () => token || "",
+        })
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+      connect
+        .start()
+        .then(() => {
+          console.log("Connected!");
+          connect
+            .invoke("JoinRoom", "userDecoded.given_name", roomId)
+            .catch((error) => console.error(error));
+
+          connect.on("ReceiveMessage", (message: Message) => {
+            setMessages((prevMessages) => [...prevMessages, message]);
+          });
+
+          connect.on("RoomJoined", (roomMessage: string) => {
+            console.log(roomMessage);
+          });
+
+          connect.on("UserJoined", (userMessage: string) => {
+            console.log(userMessage);
+          });
+        })
+        .catch((err) => console.error("Connection failed: ", err));
+
+      setConnection(connect);
+
+      return () => {
+        connect.stop();
+      };
+    }
+  }, [roomId]);
 
   return (
     <div
-      ref={messagesContainerRef}
-      className="max-h-[70vh] overflow-y-auto custom-scroll bg-[#EAF2FE] size-full gap-2 flex flex-col"
+      className="
+    max-h-[70vh] overflow-y-auto custom-scroll
+    bg-[#EAF2FE] size-full gap-2 flex flex-col"
     >
       {/* Afficher les messages */}
       {messages.map((message) => (
@@ -61,6 +102,8 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
           isCurrentUser={message.userId === userId}
         />
       ))}
+      {/* Balise pour le défilement automatique */}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
