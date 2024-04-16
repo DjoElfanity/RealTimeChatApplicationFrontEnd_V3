@@ -1,10 +1,10 @@
 // Importation des hooks et composants React
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthProvider";
-// Importation de la fonction fetchRooms et du type Room
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { fetchLastMessage } from "../../api/MessageApi";
 import { Room, fetchRooms } from "../../api/RoomApi";
+import { useAuth } from "../../context/AuthProvider";
+import { useSelectedRoom } from "../../context/SelectedRoomContext"; // Importer le hook de contexte
 import { formatDate } from "../Common/FormatDate";
 import SideBarHeader from "../Common/SideBarHeader";
 import Chat from "./Chat";
@@ -18,7 +18,7 @@ interface RoomWithLastMessage extends Room {
 const ChatPage: React.FC = () => {
   const { userId } = useAuth();
   const [rooms, setRooms] = useState<RoomWithLastMessage[]>([]);
-  const [selectedChat, setSelectedChat] = useState<string | null>(null);
+  const { setSelectedRoom } = useSelectedRoom(); // Utiliser le hook pour mettre à jour le contexte
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ChatPage: React.FC = () => {
                   room.roomId,
                   error
                 );
-                return { ...room, lastMessage: null };
+                return { ...room, lastMessage: null, sendAt: null };
               }
             })
           );
@@ -68,12 +68,22 @@ const ChatPage: React.FC = () => {
             id={room.roomId}
             firstname={room.name}
             lastname=""
-            lastmessage={room.lastMessage || "nothing for the moment"}
-            lastTimeMessage={room.sendAt ? formatDate(room.sendAt) : ""}
+            lastmessage={room.lastMessage || "No recent messages"}
+            lastTimeMessage={
+              room.sendAt ? formatDate(room.sendAt) : "Unknown time"
+            }
             image="https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             isOnline={true}
-            isSelected={selectedChat === room.roomId}
-            onClick={() => setSelectedChat(room.roomId)}
+            isSelected={false} // Vous pourriez vouloir ajouter une logique de sélection ici si nécessaire
+            onClick={() => {
+              setSelectedRoom({
+                roomId: room.roomId,
+                roomName: room.name,
+                status: true, // Supposons que vous ayez un moyen de déterminer si la salle est en ligne
+                imageUrl:
+                  "https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Image URL
+              });
+            }}
           />
         ))}
       </div>

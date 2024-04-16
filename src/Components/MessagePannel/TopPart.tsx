@@ -2,7 +2,13 @@ import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 
-const TopPart: React.FC = () => {
+interface TopPartProps {
+  roomName: string;
+  // status: boolean;
+  // imageUrl: string;
+}
+
+const TopPart: React.FC<TopPartProps> = ({ roomName }) => {
   return (
     <div
       className="  size-full bg-[#D0E3FF] text-text flex items-center justify-between px-6 py-2 border-b-2 border-[#D0E3FF]
@@ -21,8 +27,8 @@ const TopPart: React.FC = () => {
         </div>
         {/* Informations du profil */}
         <div>
-          <p className="text-black font-bold">Elfanity jad</p>
-          <p className="text-[#696969]">Online</p>
+          <p className="text-black font-bold">{roomName}</p>
+          <p className="text-[#696969]">available</p>
         </div>
       </div>
 
@@ -40,3 +46,32 @@ const TopPart: React.FC = () => {
 };
 
 export default TopPart;
+
+/*
+// TopPart.tsx
+import React from 'react';
+
+interface TopPartProps {
+  roomName: string;
+  status: boolean;
+  imageUrl: string;
+}
+
+const TopPart: React.FC<TopPartProps> = ({ roomName, status, imageUrl }) => {
+  return (
+    <div className="flex items-center justify-between px-4 py-2 bg-gray-200">
+      <div className="flex items-center">
+        <img src={imageUrl || "defaultImageUrl"} alt="Room" className="w-10 h-10 rounded-full mr-3" />
+        <div>
+          <h1 className="text-lg font-semibold">{roomName || "Elefanity Jad"}</h1>
+          <p className="text-sm">{status ? "Online" : "Offline"}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TopPart;
+
+
+*/
