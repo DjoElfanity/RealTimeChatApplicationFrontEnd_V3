@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SingleMessage from "./SingleMessage";
 
 interface MessageProps {
@@ -14,6 +14,7 @@ interface Message {
 
 const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
   const [messages, setMessages] = useState<Message[]>([]); // État pour stocker les messages
+  const messagesContainerRef = useRef<HTMLDivElement>(null); // Réf pour automatiser le défilement
 
   // Fonction pour récupérer les messages
   const fetchMessages = async () => {
@@ -38,8 +39,20 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
+
+  // Effet pour défiler automatiquement vers le bas à chaque mise à jour des messages
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div className="bg-[#EAF2FE] size-full gap-2 flex flex-col ">
+    <div
+      ref={messagesContainerRef}
+      className="max-h-[70vh] overflow-y-auto custom-scroll bg-[#EAF2FE] size-full gap-2 flex flex-col"
+    >
       {/* Afficher les messages */}
       {messages.map((message) => (
         <SingleMessage
