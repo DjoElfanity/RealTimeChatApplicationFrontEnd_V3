@@ -11,12 +11,20 @@ const SingleMessage: React.FC<SingleMessageProps> = ({
 }) => (
   <div
     key={message.id}
-    className={`flex flex-row ${isCurrentUser ? "justify-end" : ""} mx-8`}
+    className={`flex flex-row ${
+      isCurrentUser ? "justify-end" : "justify-start"
+    } mx-8`}
   >
     <div
-      className={`flex flex-col  ${isCurrentUser ? "text-right" : "text-red"}`}
+      className={`flex flex-col  rounded-2xl p-1  ${
+        isCurrentUser ? "text-right bg-card-primary   " : "bg-white"
+      }`}
     >
-      <div className="flex">{message.content}</div>
+      <div
+        className={`flex p-2 ${isCurrentUser ? "text-white" : "text-black"}`}
+      >
+        {message.content}
+      </div>
     </div>
   </div>
 );

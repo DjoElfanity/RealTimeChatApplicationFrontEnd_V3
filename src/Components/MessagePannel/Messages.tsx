@@ -39,7 +39,7 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
   return (
-    <div className="bg-white size-full gap-2 flex flex-col ">
+    <div className="bg-[#EAF2FE] size-full gap-2 flex flex-col ">
       {/* Afficher les messages */}
       {messages.map((message) => (
         <SingleMessage

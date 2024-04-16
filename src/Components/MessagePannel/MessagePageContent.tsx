@@ -10,10 +10,10 @@ const MessagePageContent: React.FC = () => {
 
   return (
     <div className="flex  flex-col w-full  h-full">
-      <div className="h-[70px]">
+      <div className="h-[70px] mb-5">
         <TopPart roomName={selectedRoom?.roomName || "DEFAULT"} />
       </div>
-      <div className="flex-[2]">
+      <div className="flex-[2] ">
         <CenterPart
           roomId={
             typeof selectedRoom === "string"
@@ -22,7 +22,7 @@ const MessagePageContent: React.FC = () => {
           }
         />
       </div>
-      <div className="flex-[0.27]">
+      <div className="flex-[0.27] mt-1">
         <BottomPart />
       </div>
     </div>
