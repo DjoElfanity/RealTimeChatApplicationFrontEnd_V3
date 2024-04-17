@@ -1,8 +1,8 @@
+import * as signalR from "@microsoft/signalr";
 import React, { useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { GoSmiley } from "react-icons/go";
 import { IoIosLink } from "react-icons/io";
-import * as signalR from "@microsoft/signalr";
 
 interface BottomPartProps {
   roomId: string;
@@ -23,6 +23,14 @@ const BottomPart: React.FC<BottomPartProps> = ({ roomId, connection }) => {
     }
   };
 
+  // Appuyer sur entrée et envoyé le message
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
   return (
     <div
       className="bg-[#EAF2FE] h-full w-full items-center flex justify-center
@@ -37,11 +45,12 @@ const BottomPart: React.FC<BottomPartProps> = ({ roomId, connection }) => {
               onChange={(e) => setMessage(e.target.value)}
               value={message}
               placeholder="Write a message ..."
+              onKeyDown={handleKeyPress}
             />
             <IoIosLink className="absolute left-0 top-1/2 transform -translate-y-1/2 mx-3 cursor-pointer size-5" />
             <GoSmiley className="absolute right-0 top-1/2 transform -translate-y-1/2 mx-3 cursor-pointer size-5" />
           </div>
-          <button 
+          <button
             className="bg-card-primary p-2 rounded-xl size-12  flex items-center justify-center hover:bg-card-primary/85 transition-colors"
             onClick={sendMessage}
           >

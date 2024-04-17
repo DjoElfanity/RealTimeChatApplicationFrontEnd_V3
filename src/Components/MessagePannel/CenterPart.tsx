@@ -4,7 +4,7 @@ import Message from "./Messages";
 
 interface MessagesProps {
   roomId: string;
-  connection: signalR.HubConnection | null; // Ajouter cette prop pour la connexion
+  connection: signalR.HubConnection | null;
 }
 
 const CenterPart: React.FC<MessagesProps> = ({ roomId, connection }) => {
