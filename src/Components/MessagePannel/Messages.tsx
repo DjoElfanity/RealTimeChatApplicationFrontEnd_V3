@@ -66,8 +66,12 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
             .catch((error) => console.error(error));
 
           connect.on("ReceiveMessage", (message: Message) => {
-            setMessages((prevMessages) => [...prevMessages, message]);
-            dispatch(updateLastMessage(roomId, message.content)); // Assurez-vous que roomId et content sont passés
+            const now = new Date().toISOString(); // Générez la date actuelle pour sendAt
+            dispatch(updateLastMessage(roomId, message.content, now));
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              { ...message, sendAt: now },
+            ]);
           });
 
           connect.on("RoomJoined", (roomMessage: string) => {
@@ -91,8 +95,8 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
   return (
     <div
       className="
-    max-h-[70vh] overflow-y-auto custom-scroll
-    bg-[#EAF2FE] size-full gap-2 flex flex-col"
+      max-h-[70vh] overflow-y-auto custom-scroll
+      bg-[#EAF2FE] size-full gap-2 flex flex-col"
     >
       {messages.map((message) => (
         <SingleMessage

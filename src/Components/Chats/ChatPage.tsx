@@ -42,8 +42,15 @@ const ChatPage: React.FC = () => {
                   token,
                   source
                 );
-                if (lastMessage && lastMessage.content) {
-                  dispatch(updateLastMessage(room.roomId, lastMessage.content));
+                if (lastMessage && lastMessage.content && lastMessage.sendAt) {
+                  // Dispatch the action to update the message and sendAt
+                  dispatch(
+                    updateLastMessage(
+                      room.roomId,
+                      lastMessage.content,
+                      lastMessage.sendAt
+                    )
+                  );
                 }
                 return {
                   ...room,
@@ -84,9 +91,13 @@ const ChatPage: React.FC = () => {
             id={room.roomId}
             firstname={room.name}
             lastname=""
-            lastmessage={lastMessages[room.roomId] || "No recent messages"}
+            lastmessage={
+              lastMessages[room.roomId]?.message || "No recent messages"
+            }
             lastTimeMessage={
-              room.sendAt ? formatDate(room.sendAt) : "Unknown time"
+              lastMessages[room.roomId]?.sendAt
+                ? formatDate(lastMessages[room.roomId]?.sendAt)
+                : "Unknown time"
             }
             image="https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90oy1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             isOnline={true}
