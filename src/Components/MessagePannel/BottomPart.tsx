@@ -26,7 +26,7 @@ const BottomPart: React.FC<BottomPartProps> = ({ roomId, connection }) => {
   // Appuyer sur entrée et envoyé le message
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      event.preventDefault();
+      e.preventDefault();
       sendMessage();
     }
   };

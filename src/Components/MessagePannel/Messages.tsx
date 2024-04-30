@@ -1,5 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateLastMessage } from "../../redux/actions/action";
 import SingleMessage from "./SingleMessage";
 
 interface MessageProps {
@@ -13,14 +15,12 @@ interface Message {
   userId: string;
 }
 
-const token = localStorage.getItem("token");
-
 const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [, setConnection] = useState<signalR.HubConnection | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
 
-  // Fonction pour récupérer les messages
   const fetchMessages = async () => {
     try {
       const response = await fetch(
@@ -36,20 +36,19 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
     }
   };
 
-  // Effet pour récupérer les messages lorsque l'ID de la salle change
   useEffect(() => {
     if (roomId) {
       fetchMessages();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
-  // Effet pour défiler automatiquement vers le bas à chaque mise à jour des messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     if (roomId) {
       const connect = new signalR.HubConnectionBuilder()
         .withUrl("http://localhost:5284/chatHub", {
@@ -68,6 +67,7 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
 
           connect.on("ReceiveMessage", (message: Message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
+            dispatch(updateLastMessage(roomId, message.content)); // Assurez-vous que roomId et content sont passés
           });
 
           connect.on("RoomJoined", (roomMessage: string) => {
@@ -86,7 +86,7 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
         connect.stop();
       };
     }
-  }, [roomId]);
+  }, [roomId, dispatch]);
 
   return (
     <div
@@ -94,7 +94,6 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
     max-h-[70vh] overflow-y-auto custom-scroll
     bg-[#EAF2FE] size-full gap-2 flex flex-col"
     >
-      {/* Afficher les messages */}
       {messages.map((message) => (
         <SingleMessage
           key={message.id}
@@ -102,7 +101,6 @@ const Message: React.FC<MessageProps> = ({ roomId, userId }) => {
           isCurrentUser={message.userId === userId}
         />
       ))}
-      {/* Balise pour le défilement automatique */}
       <div ref={messagesEndRef} />
     </div>
   );

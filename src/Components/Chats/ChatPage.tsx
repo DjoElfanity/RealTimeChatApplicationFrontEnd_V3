@@ -1,10 +1,13 @@
-// Importation des hooks et composants React
+// src/pages/ChatPage.js
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchLastMessage } from "../../api/MessageApi";
 import { Room, fetchRooms } from "../../api/RoomApi";
 import { useAuth } from "../../context/AuthProvider";
-import { useSelectedRoom } from "../../context/SelectedRoomContext"; // Importer le hook de contexte
+import { useSelectedRoom } from "../../context/SelectedRoomContext";
+import { updateLastMessage } from "../../redux/actions/action";
+import { RootState } from "../../store/store";
 import { formatDate } from "../Common/FormatDate";
 import SideBarHeader from "../Common/SideBarHeader";
 import Chat from "./Chat";
@@ -16,9 +19,14 @@ interface RoomWithLastMessage extends Room {
 }
 
 const ChatPage: React.FC = () => {
+  const dispatch = useDispatch();
   const { userId } = useAuth();
+  const { setSelectedRoom } = useSelectedRoom();
+  const lastMessages = useSelector(
+    (state: RootState) => state.message.lastMessages
+  );
+
   const [rooms, setRooms] = useState<RoomWithLastMessage[]>([]);
-  const { setSelectedRoom } = useSelectedRoom(); // Utiliser le hook pour mettre à jour le contexte
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -34,18 +42,27 @@ const ChatPage: React.FC = () => {
                   token,
                   source
                 );
+                if (lastMessage && lastMessage.content) {
+                  dispatch(updateLastMessage(room.roomId, lastMessage.content));
+                }
                 return {
                   ...room,
-                  lastMessage: lastMessage.content,
-                  sendAt: lastMessage.sendAt,
-                }; // Supposons que `content` contient le texte du dernier message
+                  lastMessage: lastMessage
+                    ? lastMessage.content
+                    : "No recent messages",
+                  sendAt: lastMessage ? lastMessage.sendAt : null,
+                };
               } catch (error) {
                 console.error(
                   "Error fetching last message for room",
                   room.roomId,
                   error
                 );
-                return { ...room, lastMessage: null, sendAt: null };
+                return {
+                  ...room,
+                  lastMessage: "No recent messages",
+                  sendAt: null,
+                };
               }
             })
           );
@@ -53,9 +70,8 @@ const ChatPage: React.FC = () => {
         })
         .catch((error) => console.error("Rooms error:", error));
     }
-
     return () => source.cancel("Component unmounted");
-  }, [userId, token]);
+  }, [userId, token, dispatch]);
 
   return (
     <div className="max-h-[calc(100vh)] overflow-y-hidden">
@@ -68,20 +84,20 @@ const ChatPage: React.FC = () => {
             id={room.roomId}
             firstname={room.name}
             lastname=""
-            lastmessage={room.lastMessage || "No recent messages"}
+            lastmessage={lastMessages[room.roomId] || "No recent messages"}
             lastTimeMessage={
               room.sendAt ? formatDate(room.sendAt) : "Unknown time"
             }
-            image="https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            image="https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90oy1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             isOnline={true}
-            isSelected={false} // Vous pourriez vouloir ajouter une logique de sélection ici si nécessaire
+            isSelected={false}
             onClick={() => {
               setSelectedRoom({
                 roomId: room.roomId,
                 roomName: room.name,
-                status: true, // Supposons que vous ayez un moyen de déterminer si la salle est en ligne
+                status: true,
                 imageUrl:
-                  "https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Image URL
+                  "https://images.unsplash.com/photo-1519764622345-23439dd774f7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90oy1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
               });
             }}
           />
