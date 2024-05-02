@@ -31,7 +31,8 @@ const IconeUser: React.FC<IconeUserProps> = ({ onUserClick, userId }) => {
             id: response.data.id,
             firstName: response.data.firstName,
             lastName: response.data.lastName,
-            image: "https://example.com/default-image.png",
+            image:
+              "https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           },
         ]);
       } catch (error) {

@@ -62,7 +62,7 @@ export const AnimatedTooltip = ({
               <div className="font-bold text-white relative z-30 text-base">
                 {item.firstName} {item.lastName}
               </div>
-              <div className="text-white text-xs">{/* UN TRUCK ICI  */}</div>
+              <div className="text-white text-xs">options</div>
             </motion.div>
           )}
           <img

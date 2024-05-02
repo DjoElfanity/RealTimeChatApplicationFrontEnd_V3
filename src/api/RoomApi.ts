@@ -32,3 +32,24 @@ export const fetchRooms = async (
 
   return response.data.map((apiRoom) => apiRoom.room);
 };
+
+// Fonction pour créer une salle de chat
+export const createRoom = async (
+  name: string,
+  token: string
+): Promise<Room> => {
+  if (!name) throw new Error("Room name is required");
+
+  const response = await axios.post<Room>(
+    `${BASE_URL}`,
+    { name },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  return response.data;
+};

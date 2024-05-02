@@ -11,6 +11,8 @@ const AddRoomPanel: React.FC = () => {
   const [memberEmail, setMemberEmail] = useState("");
   const toggleDropdown = () => setIsDropped(!isDropped);
   const toggleSecondDropdown = () => setIsSecondDropped(!isSecondDropped);
+  const token = localStorage.getItem("token");
+
   const fieldsForCreateRoom = [
     {
       label: "Room Name",
@@ -60,6 +62,7 @@ const AddRoomPanel: React.FC = () => {
             <RoomNameForm
               fields={fieldsForCreateRoom}
               onSubmit={handleSubmit}
+              token={token ? token : ""}
             />
           )}
 
@@ -73,6 +76,7 @@ const AddRoomPanel: React.FC = () => {
             <RoomNameForm
               fields={fieldsForAddMembers}
               onSubmit={handleSubmit}
+              token={token ? token : ""}
             />
           )}
 

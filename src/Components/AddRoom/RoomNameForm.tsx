@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-hot-toast";
+import { createRoom } from "../../api/RoomApi"; // Vérifiez le chemin d'import
 import { Button } from "../Common/Button";
 
 interface FormField {
@@ -10,14 +12,39 @@ interface FormField {
 }
 
 interface RoomNameFormProps {
+  token: string; // Token pour l'authentification de l'API
   fields: FormField[];
   onSubmit: (e: React.FormEvent) => void;
 }
 
-const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
+const RoomNameForm: React.FC<RoomNameFormProps> = ({
+  fields,
+  onSubmit,
+  token,
+}) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(e); // Permet de gérer également des logiques externes si besoin
+
+    // Spécifique pour la création de salles si le champ s'appelle "roomName"
+    const roomField = fields.find((field) => field.name === "roomName");
+    if (roomField && roomField.value) {
+      try {
+        const newRoom = await createRoom(roomField.value, token);
+        console.log("Salle créée :", newRoom);
+        toast.success("Salle créée avec succès !"); // Affiche un message de succès
+        roomField.onChange({
+          target: { name: roomField.name, value: "" },
+        } as React.ChangeEvent<HTMLInputElement>);
+      } catch (error) {
+        console.error("Failed to create room", error);
+      }
+    }
+  };
+
   return (
     <div className="bg-white mt-3 p-3.5 rounded-lg flex flex-col">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         {fields.map((field, index) => (
           <div key={index} className="mb-2">
             <label
@@ -26,7 +53,6 @@ const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
             >
               {field.label}
             </label>
-            {/* Mise à jour du style de l'input pour correspondre à SearchBar */}
             <input
               type="text"
               id={field.name}
@@ -46,7 +72,7 @@ const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
             onClick={() =>
               fields.forEach((field) =>
                 field.onChange({
-                  target: { value: "" },
+                  target: { name: field.name, value: "" },
                 } as React.ChangeEvent<HTMLInputElement>)
               )
             }
@@ -56,7 +82,7 @@ const RoomNameForm: React.FC<RoomNameFormProps> = ({ fields, onSubmit }) => {
           <Button
             variant="green"
             size="default"
-            className="  xl:px-12"
+            className="xl:px-12"
             type="submit"
           >
             Créer
