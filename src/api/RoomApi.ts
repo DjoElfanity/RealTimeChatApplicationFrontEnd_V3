@@ -10,6 +10,8 @@ export interface Room {
   createdAt: string;
   updatedAt: string;
   members: { userId: string; role: string }[];
+  roomType: "group" | "friendship";
+  otherUser?: string;
 }
 
 // Fonction pour récupérer les salles de chat
