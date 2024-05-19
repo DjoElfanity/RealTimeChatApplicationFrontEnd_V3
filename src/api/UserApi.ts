@@ -1,20 +1,6 @@
 import axios, { CancelTokenSource } from "axios";
 
-const BASE_URL = "http://localhost:5150/api/User/";
-
-/*
-{
-    "id": "65fc48a2ee4edeb5537f1c8e",
-    "firstName": "jad",
-    "lastName": "string",
-    "email": "jadfanity22@gmail.com",
-    "status": "Offline",
-    "createdAt": "2024-03-21T14:48:02.694Z",
-    "updatedAt": "2024-03-21T14:48:02.694Z"
-  },
-
-
-*/
+const BASE_URL = "http://localhost:5150/api/";
 
 export interface User {
   id: string;
@@ -26,6 +12,16 @@ export interface User {
   updatedAt: string;
 }
 
+export interface FriendRequestType {
+  id: string;
+  requesterId: string;
+  requesterEmail: string;
+  recipientId: string;
+  recipientEmail: string;
+  requestDate: string;
+  friendsStatus: string; // "Pending", "Accepted", etc.
+}
+
 export const fetchUsersById = async (
   userId: string,
   token: string,
@@ -33,8 +29,7 @@ export const fetchUsersById = async (
 ): Promise<User> => {
   if (!userId) throw new Error("UserID is required");
 
-  // Correctement ajouter l'identifiant de l'utilisateur à l'URL
-  const url = `${BASE_URL}${userId}`; // Assurez-vous que cela forme l'URL correcte, comme http://localhost:5150/api/User/{userId}
+  const url = `${BASE_URL}User/${userId}`;
 
   const response = await axios.get<User>(url, {
     headers: {
@@ -46,7 +41,6 @@ export const fetchUsersById = async (
   return response.data;
 };
 
-// je veux creer une fonction qui va utiliser le fetchUserById qui prendra en parametre  ce qu'il faut et qui me retournera le firstname lastname
 export const fetchUserPseudo = async (
   userId: string,
   token: string,
@@ -54,4 +48,88 @@ export const fetchUserPseudo = async (
 ): Promise<string> => {
   const user = await fetchUsersById(userId, token, source);
   return `${user.firstName} ${user.lastName}`;
+};
+
+// FRIENDS
+export const fetchFriendsByUserId = async (
+  userId: string,
+  token: string,
+  source: CancelTokenSource
+): Promise<User[]> => {
+  if (!userId) throw new Error("UserID is required");
+
+  const url = `${BASE_URL}Friend?UserId=${userId}`;
+
+  const response = await axios.get<User[]>(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cancelToken: source.token,
+  });
+
+  return response.data;
+};
+
+export const fetchFriendRequests = async (
+  userId: string,
+  token: string,
+  source: CancelTokenSource
+): Promise<FriendRequestType[]> => {
+  const url = `${BASE_URL}Friend/requests?UserId=${userId}`;
+  const response = await axios.get<FriendRequestType[]>(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    cancelToken: source.token,
+  });
+
+  return response.data;
+};
+
+export const acceptFriendRequest = async (
+  friendRequestId: string,
+  requesterId: string,
+  recipientId: string,
+  token: string,
+  source: CancelTokenSource
+): Promise<void> => {
+  const url = `${BASE_URL}Friend/accept`;
+
+  await axios.post(
+    url,
+    {
+      friendRequestId,
+      requesterId,
+      recipientId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cancelToken: source.token,
+    }
+  );
+};
+
+export const rejectFriendRequest = async (
+  friendRequestId: string,
+  recipientId: string,
+  token: string,
+  source: CancelTokenSource
+): Promise<void> => {
+  const url = `${BASE_URL}Friend/reject`;
+
+  await axios.post(
+    url,
+    {
+      friendRequestId,
+      recipientId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cancelToken: source.token,
+    }
+  );
 };

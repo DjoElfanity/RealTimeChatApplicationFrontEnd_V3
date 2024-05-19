@@ -67,13 +67,12 @@ const ChatPage: React.FC = () => {
               const otherUserId = room.members.find(
                 (m) => m.userId !== userId
               )?.userId;
-              console.log(otherUserId);
+
               let otherUser = "";
               if (otherUserId) {
                 try {
                   const user = await fetchUsersById(otherUserId, token, source);
                   otherUser = `${user.firstName} ${user.lastName}`;
-                  console.log(otherUser);
                 } catch (error) {
                   console.error("Error fetching user:", error);
                 }
