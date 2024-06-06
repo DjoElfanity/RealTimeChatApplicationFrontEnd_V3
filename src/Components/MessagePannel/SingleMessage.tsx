@@ -16,12 +16,15 @@ const SingleMessage: React.FC<SingleMessageProps> = ({
     } mx-8`}
   >
     <div
-      className={`flex flex-col  rounded-2xl p-1  ${
-        isCurrentUser ? "text-right bg-card-primary   " : "bg-white"
+      className={`flex flex-col rounded-2xl p-1 ${
+        isCurrentUser ? "text-right bg-card-primary" : "bg-white"
       }`}
+      style={{ maxWidth: "30vw" }}
     >
       <div
-        className={`flex p-2 ${isCurrentUser ? "text-white" : "text-black"}`}
+        className={`flex p-2 ${
+          isCurrentUser ? "text-white" : "text-black"
+        } break-all overflow-wrap`}
       >
         {message.content}
       </div>

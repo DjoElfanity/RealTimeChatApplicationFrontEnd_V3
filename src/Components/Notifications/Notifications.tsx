@@ -34,7 +34,7 @@ const Notifications: React.FC = () => {
               />
             );
           } else if (
-            notification.type === "roomRequest" &&
+            notification.type === "friendRequest" &&
             notification.isActive
           ) {
             return (

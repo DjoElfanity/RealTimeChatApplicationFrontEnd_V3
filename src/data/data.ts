@@ -132,7 +132,7 @@ export const notificationsData = [
   },
   {
     id: 2,
-    type: "roomRequest",
+    type: "friendRequest",
     name: "Jane Smith",
     message:
       "Vous avez reçu une demande de la part de Jane Smith pour rejoindre la salle",
@@ -147,7 +147,7 @@ export const notificationsData = [
   },
   {
     id: 4,
-    type: "roomRequest",
+    type: "friendRequest",
     name: "Bob Smith",
     message:
       "Vous avez reçu une demande de la part de Bob Smith pour rejoindre la salle",
