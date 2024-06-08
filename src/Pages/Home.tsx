@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import AddRoom from "../Components/AddRoom/AddRoomPannel";
 import ChatPage from "../Components/Chats/ChatPage";
+import Side from "../Components/Common/Side";
 import Friends from "../Components/Friends/Friends";
 import MessagePageContent from "../Components/MessagePannel/MessagePageContent";
 import Notifications from "../Components/Notifications/Notifications";
@@ -13,7 +14,11 @@ import { SelectedRoomProvider } from "../context/SelectedRoomContext";
 const Home: React.FC = () => {
   const { userId } = useAuth();
   const [currentPanel, setCurrentPanel] = useState<string>("message");
+  const [isInfoPanelVisible, setInfoPanelVisible] = useState(false);
 
+  const toggleInfoPanel = () => {
+    setInfoPanelVisible((prev) => !prev);
+  };
   const handleIconeClick = (iconName: string) => {
     setCurrentPanel(iconName);
   };
@@ -58,8 +63,14 @@ const Home: React.FC = () => {
 
         <div className="bg-background-leger w-full hidden sm:block">
           {/* <WelcomePage name="John " /> */}
-          <MessagePageContent />
+          <MessagePageContent toggleInfoPanel={toggleInfoPanel} />
         </div>
+
+        {isInfoPanelVisible && (
+          <div className="info-panel">
+            <Side />
+          </div>
+        )}
       </div>
     </SelectedRoomProvider>
   );

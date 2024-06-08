@@ -4,11 +4,13 @@ import { IoSearchOutline } from "react-icons/io5";
 
 interface TopPartProps {
   roomName: string;
+  toggleInfoPanel: () => void;
+
   // status: boolean;
   // imageUrl: string;
 }
 
-const TopPart: React.FC<TopPartProps> = ({ roomName }) => {
+const TopPart: React.FC<TopPartProps> = ({ roomName, toggleInfoPanel }) => {
   return (
     <div
       className="  size-full bg-[#D0E3FF] text-text flex items-center justify-between px-6 py-2 border-b-2 border-[#D0E3FF]
@@ -37,7 +39,7 @@ const TopPart: React.FC<TopPartProps> = ({ roomName }) => {
           <IoSearchOutline className="cursor-pointer size-5 text-black" />
         </div>
 
-        <div>
+        <div onClick={toggleInfoPanel}>
           <IoIosArrowDown className="cursor-pointer size-5 text-black" />
         </div>
       </div>

@@ -5,7 +5,9 @@ import BottomPart from "./BottomPart";
 import CenterPart from "./CenterPart";
 import TopPart from "./TopPart";
 
-const MessagePageContent: React.FC = () => {
+const MessagePageContent: React.FC<{ toggleInfoPanel: () => void }> = ({
+  toggleInfoPanel,
+}) => {
   const { selectedRoom } = useSelectedRoom();
   const [connection, setConnection] = useState<signalR.HubConnection | null>(
     null
@@ -30,7 +32,10 @@ const MessagePageContent: React.FC = () => {
   return (
     <div className="flex  flex-col w-full  h-full">
       <div className="h-[70px] mb-5">
-        <TopPart roomName={selectedRoom?.roomName || "DEFAULT"} />
+        <TopPart
+          roomName={selectedRoom?.roomName || "DEFAULT"}
+          toggleInfoPanel={toggleInfoPanel}
+        />
       </div>
       <div className="flex-[2] ">
         <CenterPart

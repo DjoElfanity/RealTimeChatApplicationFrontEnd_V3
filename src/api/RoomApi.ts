@@ -55,3 +55,26 @@ export const createRoom = async (
 
   return response.data;
 };
+// Fonction pour récupérer les salles de chat de type "group" pour un utilisateur
+export const fetchGroupRooms = async (
+  userId: string,
+  token: string,
+  source: CancelTokenSource
+): Promise<Room[]> => {
+  if (!userId) throw new Error("UserID is required");
+
+  const response = await axios.get<{ room: Room }[]>(
+    `${BASE_URL}ByOwner/${userId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cancelToken: source.token,
+    }
+  );
+
+  // Filter rooms to return only those of type "group"
+  return response.data
+    .map((apiRoom) => apiRoom.room)
+    .filter((room) => room.roomType === "group");
+};

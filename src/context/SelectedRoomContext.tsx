@@ -30,7 +30,8 @@ interface SelectedRoomProviderProps {
 export const SelectedRoomProvider: React.FC<SelectedRoomProviderProps> = ({
   children,
 }) => {
-  const [selectedRoom, setSelectedRoom] = useState<SelectedRoomContextType["selectedRoom"]>(null);
+  const [selectedRoom, setSelectedRoom] =
+    useState<SelectedRoomContextType["selectedRoom"]>(null);
   return (
     <SelectedRoomContext.Provider value={{ selectedRoom, setSelectedRoom }}>
       {children}

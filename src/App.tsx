@@ -15,7 +15,7 @@ function App() {
           <Route
             path="/chat"
             element={
-              <RequireAuth >
+              <RequireAuth>
                 <Home />
               </RequireAuth>
             }
