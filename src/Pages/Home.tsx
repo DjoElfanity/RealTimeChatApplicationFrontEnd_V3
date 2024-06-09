@@ -8,6 +8,7 @@ import MessagePageContent from "../Components/MessagePannel/MessagePageContent";
 import Notifications from "../Components/Notifications/Notifications";
 import Sidebar from "../Components/SideBar/Sidebar";
 import UserInfo from "../Components/User/UserInfo";
+import NotificationHub from "../Hub/NotificationHub";
 import { useAuth } from "../context/AuthProvider";
 import { SelectedRoomProvider } from "../context/SelectedRoomContext";
 
@@ -42,6 +43,7 @@ const Home: React.FC = () => {
 
   return (
     <SelectedRoomProvider>
+      <NotificationHub />
       <div className="h-screen flex ">
         <Sidebar onIconeClick={handleIconeClick} userId={userId || ""} />
         <div className="bg-background-medium  text-text px-5 w-full relative sm:min-w-96 sm:max-w-96      ">
